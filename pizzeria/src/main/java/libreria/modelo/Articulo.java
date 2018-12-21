@@ -1,6 +1,8 @@
 package libreria.modelo;
 
-public class Articulo {
+import java.io.Serializable;
+
+public class Articulo implements Serializable {
 
     private String nombrePizza;
     private int cantidad;

@@ -1,22 +1,24 @@
 package libreria.iei;
 
+import libreria.modelo.Articulo;
+import libreria.modelo.Pedido;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 public class CalcularPrecio implements JavaDelegate {
+
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-        String NombrePizza = (String) execution.getVariable("IDNombrePizza");
-        int cantidad = ((Number) execution.getVariable("IDCantidad")).intValue();
-
-        System.out.println("Calculando el precio de " + cantidad + " " + NombrePizza + "pizzas");
-
+        Pedido pedido = (Pedido) execution.getVariable("miPedido");
         double precio = 0.0;
-        if("margarita".equalsIgnoreCase(NombrePizza)) { precio = cantidad * 6.0; }
-        else { precio = cantidad * 8.0; }
 
-        System.out.println("El precio será " + precio);
-
+        for(Articulo articulo : pedido.getArticulos()) {
+            double precioPizza = DBUtils.getPrecioPizza(articulo.getNombrePizza());
+            precio += (precioPizza * articulo.getCantidad());
+        }
+        pedido.setTotal(precio);
+        execution.setVariable("miPedido", pedido);
         execution.setVariable("IDPrecio", precio);
+
     }
 }

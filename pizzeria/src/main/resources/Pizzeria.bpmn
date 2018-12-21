@@ -97,7 +97,7 @@
       <bpmn:incoming>SequenceFlow_1vq6fr8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_17tykqr</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:userTask id="Task_0kbn7vq" name="Introducir pedido">
+    <bpmn:userTask id="Task_0kbn7vq" name="Introducir pedido" camunda:assignee="pedro">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="IDNombre" label="Nombre cliente" type="string">
@@ -125,6 +125,7 @@
           <camunda:formField id="IDCantidad3" label="Cantidad solicitada pizza 3" type="long" />
           <camunda:formField id="IDCantidad4" label="Cantidad solicitada pizza 4" type="long" />
         </camunda:formData>
+        <camunda:executionListener class="libreria.iei.AddPedido" event="end" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1hwobqw</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1vq6fr8</bpmn:outgoing>
@@ -165,7 +166,7 @@
         <di:waypoint x="490" y="35" />
         <di:waypoint x="562" y="35" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="484" y="62" width="44" height="14" />
+          <dc:Bounds x="494" y="86" width="44" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_14vlk5c_di" bpmnElement="SequenceFlow_14vlk5c">
@@ -173,7 +174,7 @@
         <di:waypoint x="490" y="251" />
         <di:waypoint x="241" y="251" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="491" y="195" width="29" height="14" />
+          <dc:Bounds x="495" y="150" width="29" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Lane_0ts1ar0_di" bpmnElement="Lane_0ts1ar0">

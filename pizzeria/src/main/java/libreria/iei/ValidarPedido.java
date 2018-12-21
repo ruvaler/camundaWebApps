@@ -7,23 +7,21 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import java.util.List;
 
 public class ValidarPedido implements JavaDelegate {
+
     @Override
     public void execute(DelegateExecution execution) throws Exception {
+
         Pedido pedido = (Pedido) execution.getVariable("miPedido");
 
-        List<String> nombresPizzas = pedido.getNombrePedidosString();
-
+        List<String> nombrePizzas = pedido.getNombrePedidosString();
         List<String> pizzas = DBUtils.getNombrePizzas();
 
-        for (int i = 0; i < nombresPizzas.size(); i++) {
-            if (!pizzas.contains(nombresPizzas.get(i))) pedido.removeLinea(i);
+        boolean esPedidoValido = false;
+        for (int i = 0; i < nombrePizzas.size(); i++) {
+            if (!pizzas.contains(nombrePizzas.get(i))) pedido.removeLinea(i);
+            else esPedidoValido = true;
         }
-
-        boolean isPedidoValido = (pizzas.contains(nombresPizzas.get(0))
-                || pizzas.contains(nombresPizzas.get(1))
-                || pizzas.contains(nombresPizzas.get(2))
-                || pizzas.contains(nombresPizzas.get(3)));
-
-        execution.setVariable("PedidoValido", isPedidoValido);
+        execution.setVariable("miPedido", pedido);
+        execution.setVariable("PedidoValido", esPedidoValido);
     }
 }

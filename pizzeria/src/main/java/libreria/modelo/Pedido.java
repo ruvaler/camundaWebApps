@@ -1,14 +1,14 @@
 package libreria.modelo;
 
-import org.joda.time.LocalDateTime;
-
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import java.util.Date;
 import java.util.List;
 
 public class Pedido implements Serializable {
 
-    private LocalDateTime fecha;
+    private Date fecha;
     private double total;
     private String nombreCliente;
     private String direccion;
@@ -18,19 +18,11 @@ public class Pedido implements Serializable {
         this.articulos = new ArrayList<>();
     }
 
-    public Pedido(LocalDateTime fecha, double total, String nombreCliente, String direccion) {
-        this.fecha = fecha;
-        this.total = total;
-        this.nombreCliente = nombreCliente;
-        this.direccion = direccion;
-        this.articulos = new ArrayList<>();
-    }
-
-    public LocalDateTime getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
