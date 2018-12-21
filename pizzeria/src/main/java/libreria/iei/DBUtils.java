@@ -78,7 +78,7 @@ public class DBUtils {
     public static void addPedido(Pedido pedido) throws SQLException {
         Connection con = DBUtils.abrirConexion();
 
-        String SQL = "INSERT INTO pedido (`Fecha`,`Total`,`NombreCliente`,`Direccion`) VALUES(?,?,?,?)";
+        String SQL = "INSERT INTO pedido (Fecha, NombreCliente, Direccion, Total) VALUES(?,?,?,?)";
 
         PreparedStatement statement = con.prepareStatement(SQL,
                 Statement.RETURN_GENERATED_KEYS);
@@ -96,7 +96,7 @@ public class DBUtils {
     public static void addLineaPedido(Articulo articulo, int idPedido) throws SQLException {
         Connection con = DBUtils.abrirConexion();
 
-        String SQL = "INSERT INTO LINEAPEDIDO (`idPedido`,`NombrePizza`,`Cantidad`,`ImportLinea`) VALUES (?,?,?,?)";
+        String SQL = "INSERT INTO LINEAPEDIDO (idPedido, NombrePizza, Cantidad, ImporteLinea) VALUES (?,?,?,?)";
 
         PreparedStatement statement = con.prepareStatement(SQL,
                 Statement.RETURN_GENERATED_KEYS);
@@ -114,15 +114,25 @@ public class DBUtils {
     public static int getIdPedido(Pedido pedido) throws SQLException {
         Connection con = DBUtils.abrirConexion();
 
-        String query = "SELECT * FROM PEDIDO WHERE NOMBRECLIENTE='"
-                + pedido.getNombreCliente() + "' AND FECHA='"
-                + pedido.getFecha() + "'";
-        Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
+        String query = "SELECT * FROM PEDIDO WHERE NOMBRECLIENTE=? AND FECHA=?";
 
-        DBUtils.cerrarConexion();
+        PreparedStatement statement = con.prepareStatement(query,
+                Statement.RETURN_GENERATED_KEYS);
 
-        if (rs.next()) return rs.getInt("idPedido");
-        else throw new SQLException();
+        java.sql.Date fechaSQL = new java.sql.Date(pedido.getFecha().getTime());
+        statement.setString(1, pedido.getNombreCliente());
+        statement.setDate(2, fechaSQL);
+
+        ResultSet rs = statement.executeQuery();
+
+        if (rs.next()) {
+            int id = rs.getInt("idPedido");
+            DBUtils.cerrarConexion();
+            return id;
+        }
+        else {
+            DBUtils.cerrarConexion();
+            throw new SQLException();
+        }
     }
 }

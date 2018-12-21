@@ -17,6 +17,7 @@ public class AddPedido implements ExecutionListener {
         Date fecha = (Date) execution.getVariable("IDFecha");
         pedido.setNombreCliente((String) execution.getVariable("IDNombre"));
         pedido.setDireccion((String) execution.getVariable("IDDireccion"));
+        pedido.setFecha(fecha);
 
         String pizza1 = (String) execution.getVariable("IDNombrePizza1");
         if (! pizza1.equals(""))
